@@ -51,24 +51,24 @@ window.onload = function() {
     qrImage.src = qrSource;
 };
 
-function downloadQR() {
+async function downloadQR() {
     const img = document.getElementById('qrImage');
     const qrUrl = img.src;
     
-    fetch(qrUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            const blobUrl = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = blobUrl;
-            link.download = 'PrimaCare_Hospital_QR.png';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(blobUrl);
-        })
-        .catch(err => {
-            window.open(qrUrl, '_blank');
-        });
+    try {
+        const response = await fetch(qrUrl);
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = 'PrimaCare_Hospital_QR.png';
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+        window.open(qrUrl, '_blank');
+    }
 }
