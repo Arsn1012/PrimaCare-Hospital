@@ -47,8 +47,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.onload = function() {
     const siteURL = window.location.href; 
     const qrImage = document.getElementById('qrImage');
-    
-    // Generate QR code using API
     const qrSource = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${siteURL}&color=4B0082`;
     qrImage.src = qrSource;
 };
@@ -57,12 +55,20 @@ function downloadQR() {
     const img = document.getElementById('qrImage');
     const qrUrl = img.src;
     
-    const link = document.createElement('a');
-    link.href = qrUrl;
-    link.target = '_blank';
-    link.download = 'PrimaCare_Hospital_QR.png';
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    fetch(qrUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            const blobUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = 'PrimaCare_Hospital_QR.png';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(blobUrl);
+        })
+        .catch(err => {
+            window.open(qrUrl, '_blank');
+        });
 }
