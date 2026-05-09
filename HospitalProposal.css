@@ -64,7 +64,12 @@ body { font-family: 'Roboto', sans-serif; color: #333; line-height: 1.6; scroll-
     color: var(--white) !important;
     background: var(--dark);
     box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+}
+
+.nav-links a {
+    position: relative;
+    z-index: 11; 
 }
 
 .btn-cta:hover::before {
