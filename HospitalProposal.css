@@ -57,6 +57,7 @@ body { font-family: 'Roboto', sans-serif; color: #333; line-height: 1.6; scroll-
     height: 100%;
     background: linear-gradient(120deg, transparent, rgba(212, 175, 55, 0.4), transparent);
     transition: all 0.6s;
+    pointer-event: none;
 }
 
 .btn-cta:hover {
